@@ -18,24 +18,6 @@ function formatDate(date, fromFormat, toFormat) {
   const reorderedDate = [];
   const oldYear = newDate[oldYearIndex];
 
-  function getIndex(index) {
-    return index.indexOf('YY') !== -1
-      ? index.indexOf('YY')
-      : index.indexOf('YYYY');
-  }
-
-  function getYear(number, from, to) {
-    if (from > to) {
-      return number.slice(2);
-    }
-
-    if (from < to) {
-      return number < 30 ? '20' + number : '19' + number;
-    }
-
-    return number;
-  }
-
   newDate[oldYearIndex] = getYear(oldYear, oldYearLength, newYearLength);
 
   for (let i = 0; i < toFormat.length - 1; i++) {
@@ -49,6 +31,25 @@ function formatDate(date, fromFormat, toFormat) {
   }
 
   return reorderedDate.join(newJoin);
+}
+
+function getIndex(index) {
+  const shortYear = index.indexOf('YY');
+  const longYear = index.indexOf('YYYY');
+
+  return shortYear !== -1 ? shortYear : longYear;
+}
+
+function getYear(year, from, to) {
+  if (from > to) {
+    return year.slice(2);
+  }
+
+  if (from < to) {
+    return year < 30 ? '20' + year : '19' + year;
+  }
+
+  return year;
 }
 
 module.exports = formatDate;
