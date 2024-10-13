@@ -8,8 +8,8 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const oldYearIndex = getIndex(fromFormat);
-  const newYearIndex = getIndex(toFormat);
+  const oldYearIndex = getYearIndex(fromFormat);
+  const newYearIndex = getYearIndex(toFormat);
   const oldYearLength = fromFormat[oldYearIndex].length;
   const newYearLength = toFormat[newYearIndex].length;
   const oldJoin = fromFormat[3];
@@ -18,7 +18,11 @@ function formatDate(date, fromFormat, toFormat) {
   const reorderedDate = [];
   const oldYear = newDate[oldYearIndex];
 
-  newDate[oldYearIndex] = getYear(oldYear, oldYearLength, newYearLength);
+  newDate[oldYearIndex] = convertYearFormat(
+    oldYear,
+    oldYearLength,
+    newYearLength,
+  );
 
   for (let i = 0; i < toFormat.length - 1; i++) {
     if (i === newYearIndex) {
@@ -33,20 +37,22 @@ function formatDate(date, fromFormat, toFormat) {
   return reorderedDate.join(newJoin);
 }
 
-function getIndex(index) {
+function getYearIndex(index) {
   const shortYear = index.indexOf('YY');
   const longYear = index.indexOf('YYYY');
 
   return shortYear !== -1 ? shortYear : longYear;
 }
 
-function getYear(year, from, to) {
+function convertYearFormat(year, from, to) {
+  const twoLastYearDigits = '30';
+
   if (from > to) {
     return year.slice(2);
   }
 
   if (from < to) {
-    return year < 30 ? '20' + year : '19' + year;
+    return year < twoLastYearDigits ? `20${year}` : `19${year}`;
   }
 
   return year;
