@@ -12,13 +12,7 @@ function formatDate(date, fromFormat, toFormat) {
   let resultString = '';
   let index = 0;
 
-  if (date.includes('-')) {
-    dateArr = date.split('-');
-  } else if (date.includes('/')) {
-    dateArr = date.split('/');
-  } else {
-    dateArr = date.split('.');
-  }
+  dateArr = date.split(fromFormat[3]);
 
   for (let i = 0; i < toFormat.length - 1; i++) {
     const fromIndex = fromFormat.indexOf(toFormat[i]);
@@ -28,7 +22,7 @@ function formatDate(date, fromFormat, toFormat) {
     if (toFormat[i] === 'YY' && fromFormat.includes('YYYY')) {
       const number = dateArr[index - 1];
 
-      resultString += number.slice(2);
+      resultString += number.slice(-2);
     } else if (toFormat[i] === 'YYYY' && fromFormat.includes('YY')) {
       const year = Number(dateArr[index - 1]);
 
