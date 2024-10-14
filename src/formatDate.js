@@ -8,36 +8,36 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const oldYearIndex = getYearIndex(fromFormat);
-  const newYearIndex = getYearIndex(toFormat);
+  const oldYearIndex = dateFormatArray(fromFormat);
+  const newYearIndex = dateFormatArray(toFormat);
   const oldYearLength = fromFormat[oldYearIndex].length;
   const newYearLength = toFormat[newYearIndex].length;
-  const oldJoin = fromFormat[3];
-  const newJoin = toFormat[3];
-  const newDate = date.split(oldJoin);
-  const reorderedDate = [];
-  const oldYear = newDate[oldYearIndex];
+  const oldSeparator = fromFormat[3];
+  const newSeparator = toFormat[3];
+  const oldDateParts = date.split(oldSeparator);
+  const newDateParts = [];
+  const oldYear = oldDateParts[oldYearIndex];
 
-  newDate[oldYearIndex] = convertYearFormat(
+  oldDateParts[oldYearIndex] = convertYearFormat(
     oldYear,
     oldYearLength,
     newYearLength,
   );
 
-  for (let i = 0; i < toFormat.length - 1; i++) {
-    if (i === newYearIndex) {
-      reorderedDate[i] = newDate[oldYearIndex];
+  for (let partIndex = 0; partIndex < toFormat.length - 1; partIndex++) {
+    if (partIndex === newYearIndex) {
+      newDateParts[partIndex] = oldDateParts[oldYearIndex];
     } else {
-      const index = fromFormat.indexOf(toFormat[i]);
+      const index = fromFormat.indexOf(toFormat[partIndex]);
 
-      reorderedDate[i] = newDate[index];
+      newDateParts[partIndex] = oldDateParts[index];
     }
   }
 
-  return reorderedDate.join(newJoin);
+  return newDateParts.join(newSeparator);
 }
 
-function getYearIndex(index) {
+function dateFormatArray(index) {
   const shortYear = index.indexOf('YY');
   const longYear = index.indexOf('YYYY');
 
@@ -45,14 +45,14 @@ function getYearIndex(index) {
 }
 
 function convertYearFormat(year, from, to) {
-  const twoLastYearDigits = '30';
+  const TWO_LAST_YEAR_DIGITS = '30';
 
   if (from > to) {
     return year.slice(2);
   }
 
   if (from < to) {
-    return year < twoLastYearDigits ? `20${year}` : `19${year}`;
+    return year < TWO_LAST_YEAR_DIGITS ? `20${year}` : `19${year}`;
   }
 
   return year;
