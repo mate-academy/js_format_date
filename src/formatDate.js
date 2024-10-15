@@ -9,31 +9,19 @@
  */
 function formatDate(date, fromFormat, toFormat) {
   // write code here
-  const unformattedDate = dateSplitter(date, fromFormat);
+  const { day, month, year } = dateSplitter(date, fromFormat);
   const separator = toFormat[3];
-  const resArr = [];
-  let res = '';
 
-  for (let i = 0; i < toFormat.length; i++) {
-    switch (toFormat[i]) {
-      case 'DD':
-        resArr.push(unformattedDate[0]);
-        break;
-      case 'MM':
-        resArr.push(unformattedDate[1]);
-        break;
-      case 'YYYY':
-        resArr.push(unformattedDate[2]);
-        break;
-      case 'YY':
-        resArr.push(unformattedDate[2] % 100);
-        break;
-    }
-  }
+  const dateMap = {
+    DD: day,
+    MM: month,
+    YYYY: year,
+    YY: year % 100,
+  };
 
-  res = resArr.join(separator);
+  const formattedDate = toFormat.map((part) => dateMap[part]).join(separator);
 
-  return res;
+  return formattedDate.slice(0, -1);
 }
 
 function dateSplitter(date, fromFormat) {
@@ -61,7 +49,7 @@ function dateSplitter(date, fromFormat) {
 
   unformattedDate.push(day, month, year);
 
-  return unformattedDate;
+  return { day, month, year };
 }
 
 module.exports = formatDate;
