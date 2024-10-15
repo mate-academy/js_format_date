@@ -36,14 +36,22 @@ function dateSplitter(date, fromFormat) {
     const format = previousFormat[i];
     const datePart = previousDate[i];
 
-    if (format === 'DD') {
-      day = datePart;
-    } else if (format === 'MM') {
-      month = datePart;
-    } else if (format === 'YYYY') {
-      year = datePart;
-    } else if (format === 'YY') {
-      year = datePart < 30 ? '20' + datePart : '19' + datePart;
+    switch (format) {
+      case 'DD':
+        day = datePart;
+        break;
+
+      case 'MM':
+        month = datePart;
+        break;
+
+      case 'YYYY':
+        year = datePart;
+        break;
+
+      case 'YY':
+        year = datePart < 30 ? '20' + datePart : '19' + datePart;
+        break;
     }
   }
 
