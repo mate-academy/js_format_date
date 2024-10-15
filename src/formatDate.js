@@ -28,7 +28,6 @@ function dateSplitter(date, fromFormat) {
   const separator = fromFormat[3];
   const previousFormat = fromFormat.slice(0, 3);
   const previousDate = date.split(separator);
-  const unformattedDate = [];
 
   let day, month, year;
 
@@ -54,8 +53,6 @@ function dateSplitter(date, fromFormat) {
         break;
     }
   }
-
-  unformattedDate.push(day, month, year);
 
   return { day, month, year };
 }
