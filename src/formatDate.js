@@ -15,20 +15,19 @@ function formatDate(date, fromFormat, toFormat) {
   let res = '';
 
   for (let i = 0; i < toFormat.length; i++) {
-    if (toFormat[i] === 'DD') {
-      resArr.push(unformattedDate[0]);
-    }
-
-    if (toFormat[i] === 'MM') {
-      resArr.push(unformattedDate[1]);
-    }
-
-    if (toFormat[i] === 'YYYY') {
-      resArr.push(unformattedDate[2]);
-    }
-
-    if (toFormat[i] === 'YY') {
-      resArr.push(unformattedDate[2] % 100);
+    switch (toFormat[i]) {
+      case 'DD':
+        resArr.push(unformattedDate[0]);
+        break;
+      case 'MM':
+        resArr.push(unformattedDate[1]);
+        break;
+      case 'YYYY':
+        resArr.push(unformattedDate[2]);
+        break;
+      case 'YY':
+        resArr.push(unformattedDate[2] % 100);
+        break;
     }
   }
 
@@ -43,31 +42,24 @@ function dateSplitter(date, fromFormat) {
   const previousDate = date.split(separator);
   const unformattedDate = [];
 
+  let day, month, year;
+
   for (let i = 0; i < previousFormat.length; i++) {
-    if (previousFormat[i] === 'DD') {
-      unformattedDate.push(previousDate[i]);
+    const format = previousFormat[i];
+    const datePart = previousDate[i];
+
+    if (format === 'DD') {
+      day = datePart;
+    } else if (format === 'MM') {
+      month = datePart;
+    } else if (format === 'YYYY') {
+      year = datePart;
+    } else if (format === 'YY') {
+      year = datePart < 30 ? '20' + datePart : '19' + datePart;
     }
   }
 
-  for (let i = 0; i < previousFormat.length; i++) {
-    if (previousFormat[i] === 'MM') {
-      unformattedDate.push(previousDate[i]);
-    }
-  }
-
-  for (let i = 0; i < previousFormat.length; i++) {
-    if (previousFormat[i] === 'YYYY') {
-      unformattedDate.push(previousDate[i]);
-    }
-
-    if (previousFormat[i] === 'YY') {
-      if (previousDate[i] < 30) {
-        unformattedDate.push('20' + previousDate[i]);
-      } else {
-        unformattedDate.push('19' + previousDate[i]);
-      }
-    }
-  }
+  unformattedDate.push(day, month, year);
 
   return unformattedDate;
 }
