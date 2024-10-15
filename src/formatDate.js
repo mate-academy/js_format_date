@@ -37,9 +37,9 @@ function formatDate(date, fromFormat, toFormat) {
   return newDateParts.join(newSeparator);
 }
 
-function dateFormatArray(index) {
-  const shortYear = index.indexOf('YY');
-  const longYear = index.indexOf('YYYY');
+function dateFormatArray(datePattern) {
+  const shortYear = datePattern.indexOf('YY');
+  const longYear = datePattern.indexOf('YYYY');
 
   return shortYear !== -1 ? shortYear : longYear;
 }
