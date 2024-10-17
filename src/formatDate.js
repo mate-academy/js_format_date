@@ -8,18 +8,10 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const sepatareDate = date.split(fromFormat[3]);
+  const separateDate = date.split(fromFormat[3]);
   const newDate = [];
   const oldYearIndex = fromFormat.indexOf('YY');
   const separator = toFormat[3];
-
-  if (sepatareDate[oldYearIndex] >= 30) {
-    sepatareDate[oldYearIndex] = '19' + sepatareDate[oldYearIndex];
-  }
-
-  if (sepatareDate[oldYearIndex] < 30) {
-    sepatareDate[oldYearIndex] = '20' + sepatareDate[oldYearIndex];
-  }
 
   for (let i = 0; i < fromFormat.length - 1; i++) {
     let index = toFormat.indexOf(fromFormat[i]);
@@ -28,15 +20,23 @@ function formatDate(date, fromFormat, toFormat) {
       if (fromFormat[i] === 'YYYY') {
         index = toFormat.indexOf('YY');
 
-        sepatareDate[i] = sepatareDate[i].slice(2);
+        separateDate[i] = separateDate[i].slice(2);
       }
 
       if (fromFormat[i] === 'YY') {
         index = toFormat.indexOf('YYYY');
+
+        if (separateDate[oldYearIndex] >= 30) {
+          separateDate[oldYearIndex] = '19' + separateDate[oldYearIndex];
+        }
+
+        if (separateDate[oldYearIndex] < 30) {
+          separateDate[oldYearIndex] = '20' + separateDate[oldYearIndex];
+        }
       }
     }
 
-    newDate[index] = sepatareDate[i];
+    newDate[index] = separateDate[i];
   }
 
   return newDate.join(separator);
