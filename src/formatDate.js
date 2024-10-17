@@ -8,9 +8,9 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const lastElement = fromFormat[fromFormat.length - 1];
-  const lastElement2 = toFormat[toFormat.length - 1];
-  const dateParts = date.split(lastElement);
+  const fromSeparator = fromFormat[fromFormat.length - 1];
+  const toSeparator = toFormat[toFormat.length - 1];
+  const dateParts = date.split(fromSeparator);
 
   const dateObject = {};
 
@@ -22,13 +22,9 @@ function formatDate(date, fromFormat, toFormat) {
 
   for (let i = 0; i < toFormat.length; i++) {
     if (toFormat[i] === 'YY') {
-      if (dateObject['YY']) {
-        result.push(dateObject['YY']);
-      }
-
-      const year = dateObject['YYYY'];
-
       if (dateObject['YYYY']) {
+        const year = dateObject['YYYY'];
+
         result.push(year.slice(-2));
       }
     } else if (toFormat[i] === 'YYYY') {
@@ -40,9 +36,7 @@ function formatDate(date, fromFormat, toFormat) {
         } else {
           result.push('19' + year2);
         }
-      }
-
-      if (dateObject['YYYY']) {
+      } else if (dateObject['YYYY']) {
         result.push(dateObject['YYYY']);
       }
     } else {
@@ -51,6 +45,7 @@ function formatDate(date, fromFormat, toFormat) {
   }
 
   const arr = [];
+  let arrToString = '';
 
   for (let i = 0; i < result.length; i++) {
     if (result[i] !== undefined) {
@@ -58,9 +53,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
   }
 
-  let arrToString = '';
-
-  arrToString = arr.join(lastElement2);
+  arrToString = arr.join(toSeparator);
 
   return arrToString;
 }
