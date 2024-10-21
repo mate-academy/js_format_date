@@ -33,7 +33,7 @@ function formatDate(dateStr, fromFormat, toFormat) {
     if (from === 'YYYY' && to === 'YY') {
       return year.slice(-2);
     } else if (from === 'YY' && to === 'YYYY') {
-      return year < 30 ? `20${year}` : `19${year}`;
+      return parseInt(year, 10) < 30 ? `20${year}` : `19${year}`;
     }
 
     return year;
