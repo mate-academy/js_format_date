@@ -58,11 +58,3 @@ function formatDate(date, fromFormat, toFormat) {
 }
 
 module.exports = formatDate;
-
-// for (let n = 0; n < fromFormat.length; n++) {
-//   if (fromFormat[n] === toFormat[n]) {
-//     newArray.push(newDate[n]);
-//   }
-//   continue;
-// }
-// newArray.join(toValue);
