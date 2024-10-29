@@ -10,47 +10,51 @@
 function formatDate(date, fromFormat, toFormat) {
   const fromValue = fromFormat[fromFormat.length - 1];
 
+  const toValue = toFormat[toFormat.length - 1];
+
   const newDate = date.split(fromValue);
 
   const newArray = [];
 
-  const toValue = toFormat[toFormat.length - 1];
+  const dateObject = {};
 
-  let newDay = 0;
+  for (let i = 0; i < fromFormat.length - 1; i++) {
+    dateObject[fromFormat[i]] = newDate[i];
+  }
 
-  let newMonth = 0;
+  const indexOfYear = fromFormat.includes('YYYY')
+    ? fromFormat.indexOf('YYYY')
+    : fromFormat.indexOf('YY');
 
-  let newYear = 0;
-
-  for (let n of newDate) {
-    if (Number(n) > 32) {
-      newYear = n;
+  if (!('YYYY' in dateObject)) {
+    if (newDate[indexOfYear] >= 30) {
+      dateObject.YYYY = '19' + newDate[indexOfYear];
     }
 
-    if (Number(n) > 12 && Number(n) < 32) {
-      newDay = n;
-    }
-
-    if (Number(n) <= 12) {
-      newMonth = n;
+    if (newDate[indexOfYear] < 30) {
+      dateObject.YYYY = '20' + newDate[indexOfYear];
     }
   }
 
-  for (let i of toFormat) {
-    if (i === 'DD') {
-      newArray.push(newDay);
+  if ('YYYY' in dateObject) {
+    dateObject.YY = newDate[indexOfYear].slice(2);
+  }
+
+  for (let i = 0; i < toFormat.length; i++) {
+    if (toFormat[i] === 'DD') {
+      newArray.push(dateObject.DD);
     }
 
-    if (i === 'MM') {
-      newArray.push(newMonth);
+    if (toFormat[i] === 'MM') {
+      newArray.push(dateObject.MM);
     }
 
-    if (i === 'YY') {
-      newArray.push(newYear.slice(2));
+    if (toFormat[i] === 'YYYY') {
+      newArray.push(dateObject.YYYY);
     }
 
-    if (i === 'YYYY') {
-      newArray.push(newYear);
+    if (toFormat[i] === 'YY') {
+      newArray.push(dateObject.YY);
     }
   }
 
