@@ -8,8 +8,8 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const oldSeparator = fromFormat[3];
-  const separator = toFormat[3];
+  const oldSeparator = fromFormat[fromFormat.length - 1];
+  const separator = toFormat[toFormat.length - 1];
 
   const dateArr = date.split(oldSeparator);
 
