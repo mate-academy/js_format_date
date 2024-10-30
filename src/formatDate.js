@@ -45,8 +45,3 @@ function formatDate(date, fromFormat, toFormat) {
 }
 
 module.exports = formatDate;
-// formatDate(
-//   '18-02-2020',
-//   ['DD', 'MM', 'YYYY', '-'],
-//   ['DD', 'MM', 'YY', '/'],
-// ); // '18/02/20'
