@@ -8,11 +8,15 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const fromValue = fromFormat[fromFormat.length - 1];
+  const fromSeparator = fromFormat.find(
+    (item) => item === '/' || item === '-' || item === '.',
+  );
 
-  const toValue = toFormat[toFormat.length - 1];
+  const separator = toFormat.find(
+    (item) => item === '/' || item === '-' || item === '.',
+  );
 
-  const newDate = date.split(fromValue);
+  const newDate = date.split(fromSeparator);
 
   const newArray = [];
 
@@ -58,7 +62,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
   }
 
-  return newArray.join(toValue);
+  return newArray.join(separator);
 }
 
 module.exports = formatDate;
