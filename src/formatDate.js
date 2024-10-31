@@ -8,15 +8,13 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const fromSeparator = fromFormat.find(
-    (item) => item === '/' || item === '-' || item === '.',
-  );
+  const fromValue = fromFormat[fromFormat.length - 1];
+  const toValue = toFormat[toFormat.length - 1];
 
-  const separator = toFormat.find(
-    (item) => item === '/' || item === '-' || item === '.',
-  );
+  const LONG_YEAR_FORMAT = 'YYYY';
+  const SHORT_YEAR_FORMAT = 'YY';
 
-  const newDate = date.split(fromSeparator);
+  const newDate = date.split(fromValue);
 
   const newArray = [];
 
@@ -26,11 +24,11 @@ function formatDate(date, fromFormat, toFormat) {
     dateObject[fromFormat[i]] = newDate[i];
   }
 
-  const indexOfYear = fromFormat.includes('YYYY')
-    ? fromFormat.indexOf('YYYY')
-    : fromFormat.indexOf('YY');
+  const indexOfYear = fromFormat.includes(LONG_YEAR_FORMAT)
+    ? fromFormat.indexOf(LONG_YEAR_FORMAT)
+    : fromFormat.indexOf(SHORT_YEAR_FORMAT);
 
-  if (!('YYYY' in dateObject)) {
+  if (!(LONG_YEAR_FORMAT in dateObject)) {
     if (newDate[indexOfYear] >= 30) {
       dateObject.YYYY = '19' + newDate[indexOfYear];
     }
@@ -40,7 +38,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
   }
 
-  if ('YYYY' in dateObject) {
+  if (LONG_YEAR_FORMAT in dateObject) {
     dateObject.YY = newDate[indexOfYear].slice(2);
   }
 
@@ -53,16 +51,16 @@ function formatDate(date, fromFormat, toFormat) {
       newArray.push(dateObject.MM);
     }
 
-    if (toFormat[i] === 'YYYY') {
+    if (toFormat[i] === LONG_YEAR_FORMAT) {
       newArray.push(dateObject.YYYY);
     }
 
-    if (toFormat[i] === 'YY') {
+    if (toFormat[i] === SHORT_YEAR_FORMAT) {
       newArray.push(dateObject.YY);
     }
   }
 
-  return newArray.join(separator);
+  return newArray.join(toValue);
 }
 
 module.exports = formatDate;
