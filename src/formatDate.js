@@ -8,10 +8,10 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const [oldData, idFromYear, oldYear, fromSumbol] = getFormat(fromFormat);
-  const [newData, , newYear, toSumbol] = getFormat(toFormat);
+  const [oldData, idFromYear, oldYear, fromSymbol] = getFormat(fromFormat);
+  const [newData, , newYear, toSymbol] = getFormat(toFormat);
 
-  const fromDate = date.split(fromSumbol);
+  const fromDate = date.split(fromSymbol);
   const toDate = [];
 
   const year = fromDate[idFromYear];
@@ -42,12 +42,12 @@ function formatDate(date, fromFormat, toFormat) {
     toDate.push(fromDate[index]);
   }
 
-  return toDate.join(toSumbol);
+  return toDate.join(toSymbol);
 }
 
 function getFormat(format) {
-  const [first, second, therd, sumbol] = format;
-  const formatData = [first, second, therd];
+  const [first, second, third, symbol] = format;
+  const formatData = [first, second, third];
 
   const idYear = formatData.includes('YYYY')
     ? formatData.indexOf('YYYY')
@@ -55,7 +55,7 @@ function getFormat(format) {
 
   const formatYear = formatData[idYear];
 
-  return [formatData, idYear, formatYear, sumbol];
+  return [formatData, idYear, formatYear, symbol];
 }
 
 module.exports = formatDate;
