@@ -8,10 +8,12 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const dateArr = date.split(fromFormat[3]); // split date by 4 position('-') to new array;
+  // split date by 4 position('-') to new array;
+  const dateArr = date.split(fromFormat[3]);
   const receivedDate = {}; // create an empty object
   const changedDate = [];
-  // check each part of date(YY or YYYY) and saving year value to receivedDate;  
+
+  // check each part of date(YY or YYYY) and saving year value to receivedDate;
   for (let i = 0; i < fromFormat.length - 1; i++) {
     switch (fromFormat[i]) {
       case 'YYYY':
@@ -27,6 +29,7 @@ function formatDate(date, fromFormat, toFormat) {
         break;
     }
   }
+
   // add parts of final date to new array with rules of toFormat;
   for (const elem of toFormat.slice(0, -1)) {
     changedDate.push(receivedDate[elem]);
