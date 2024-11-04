@@ -8,7 +8,7 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const separator = fromFormat[3];
+  const separator = fromFormat[fromFormat.length - 1];
   const dateValues = date.split(separator);
   const dateParts = {};
 
@@ -25,7 +25,7 @@ function formatDate(date, fromFormat, toFormat) {
   }
 
   const newDateArr = [];
-  const newSeparator = toFormat[3];
+  const newSeparator = toFormat[toFormat.length - 1];
 
   for (let i = 0; i < 3; i++) {
     newDateArr.push(dateParts[toFormat[i]]);
