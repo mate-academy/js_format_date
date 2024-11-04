@@ -14,20 +14,19 @@ function formatDate(date, fromFormat, toFormat) {
   const changedDate = [];
 
   // define constance for year formats
-  const YEAR_2_DIGITS = 'YY';
-  const YEAR_4_DIGITS = 'YYYY';
+  const YEAR_SHORT_DIGITS = 'YY';
+  const YEAR_FULL_DIGITS = 'YYYY';
   
 
-  // check each part of date(YY or YYYY) and saving year value to receivedDate;
   for (let i = 0; i < fromFormat.length - 1; i++) {
     switch (fromFormat[i]) {
-      case YEAR_4_DIGITS:
-        receivedDate[YEAR_2_DIGITS] = dateArr[i].slice(2);
-        receivedDate[YEAR_4_DIGITS] = dateArr[i];
+      case YEAR_FULL_DIGITS:
+        receivedDate[YEAR_SHORT_DIGITS] = dateArr[i].slice(2);
+        receivedDate[YEAR_FULL_DIGITS] = dateArr[i];
         break;
-      case YEAR_2_DIGITS:
-        receivedDate[YEAR_4_DIGITS] = `${dateArr[i] < 30 ? 20 : 19}${dateArr[i]}`;
-        receivedDate[YEAR_2_DIGITS] = dateArr[i];
+      case YEAR_SHORT_DIGITS:
+        receivedDate[YEAR_FULL_DIGITS] = `${dateArr[i] < 30 ? 20 : 19}${dateArr[i]}`;
+        receivedDate[YEAR_SHORT_DIGITS] = dateArr[i];
         break;
       default:
         receivedDate[fromFormat[i]] = dateArr[i];
@@ -36,7 +35,7 @@ function formatDate(date, fromFormat, toFormat) {
   }
 
   // add parts of final date to new array with rules of toFormat;
-  for (const elem of toFormat.slice(0, -1)) {
+  for (const formatPart of toFormat.slice(0, -1)) {
     changedDate.push(receivedDate[elem]);
   }
 
