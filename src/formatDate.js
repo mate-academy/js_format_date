@@ -36,7 +36,7 @@ function formatDate(date, fromFormat, toFormat) {
 
   // add parts of final date to new array with rules of toFormat;
   for (const formatPart of toFormat.slice(0, -1)) {
-    changedDate.push(receivedDate[elem]);
+    changedDate.push(receivedDate[formatPart]);
   }
 
   return changedDate.join(toFormat[3]);
