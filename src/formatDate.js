@@ -9,14 +9,35 @@
  */
 
 function formatDate(date, fromFormat, toFormat) {
-  const parts = date.split(fromFormat[fromFormat.length - 1]);
-
-  const dateParts = {
-    DD: parts[fromFormat.indexOf('DD')],
-    MM: parts[fromFormat.indexOf('MM')],
-    YYYY: parts[fromFormat.indexOf('YYYY')],
-    YY: parts[fromFormat.indexOf('YY')],
+  const getSeparator = (format) => {
+    return format.find((part) => /^[^A-Za-z]+$/.test(part));
   };
+
+  const formatYear = (year, format) => {
+    if (format === 'YYYY') {
+      if (year) {
+        if (year.length === 2) {
+          const prefix = parseInt(year) < 30 ? '20' : '19';
+
+          return prefix + year;
+        } else {
+          return year;
+        }
+      }
+
+      return '';
+    } else if (format === 'YY') {
+      return year ? year.slice(-2) : '';
+    }
+  };
+
+  const parts = date.split(getSeparator(fromFormat));
+
+  const dateParts = {};
+
+  for (let i = 0; i < fromFormat.length - 1; i++) {
+    dateParts[fromFormat[i]] = parts[i];
+  }
 
   const resultParts = [];
 
@@ -29,32 +50,14 @@ function formatDate(date, fromFormat, toFormat) {
       resultParts.push(
         formatYear(dateParts['YY'] || dateParts['YYYY'], format),
       );
-    } else if (format === 'MM') {
+    } else if (format === 'MM' && 'MM' in dateParts) {
       resultParts.push(dateParts['MM']);
-    } else if (format === 'DD') {
+    } else if (format === 'DD' && 'DD' in dateParts) {
       resultParts.push(dateParts['DD']);
     }
   }
 
-  return resultParts.join(toFormat[toFormat.length - 1]);
-}
-
-function formatYear(year, format) {
-  if (format === 'YYYY') {
-    if (year) {
-      if (year.length === 2) {
-        const prefix = parseInt(year) < 30 ? '20' : '19';
-
-        return prefix + year;
-      } else {
-        return year;
-      }
-    }
-
-    return '';
-  } else if (format === 'YY') {
-    return year ? year.slice(-2) : '';
-  }
+  return resultParts.join(getSeparator(toFormat));
 }
 
 module.exports = formatDate;
