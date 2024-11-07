@@ -20,10 +20,7 @@ function formatDate(date, fromFormat, toFormat) {
 
   const outputDate = [];
 
-  outputDate.length = toFormat.length - 1;
-
-  for (let i = 0; i < outputDate.length; i++) {
-    // перебираємо шаблон вихідної дати
+  for (let i = 0; i < toFormat.length - 1; i++) {
     if (toFormat[i] === 'YYYY') {
       if (inputYear.length === 4) {
         outputDate[i] = inputYear;
