@@ -8,41 +8,37 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  // write code here
   const dateObj = {};
-  const splitDate = date.split(fromFormat[fromFormat.length - 1]);
+  const delimiter = fromFormat.find((f) => f.length === 1);
+  const splitDate = date.split(delimiter);
 
-  const result = [];
+  let dataIndex = 0;
 
-  for (let i = 0; i < fromFormat.length - 1; i++) {
-    dateObj[fromFormat[i]] = splitDate[i];
-  }
-
-  if (fromFormat.includes('YY') && toFormat.includes('YYYY')) {
-    if (dateObj.YY) {
-      if (dateObj.YY >= 30) {
-        dateObj.YYYY = '19' + dateObj.YY;
-      } else {
-        dateObj.YYYY = '20' + dateObj.YY;
-      }
+  fromFormat.forEach((format) => {
+    if (format !== delimiter) {
+      dateObj[format] = splitDate[dataIndex++];
     }
+  });
+
+  if (fromFormat.includes('YY') && toFormat.includes('YYYY') && dateObj.YY) {
+    dateObj.YYYY = (dateObj.YY >= 30 ? '19' : '20') + dateObj.YY;
   }
 
-  if (fromFormat.includes('YYYY') && toFormat.includes('YY')) {
-    if (dateObj.YYYY) {
-      dateObj.YY = dateObj.YYYY.slice(-2);
+  if (fromFormat.includes('YYYY') && toFormat.includes('YY') && dateObj.YYYY) {
+    dateObj.YY = dateObj.YYYY.slice(-2);
+  }
+
+  const result = toFormat.map((format, index) => {
+    const formattedPart = format === delimiter ? delimiter : dateObj[format];
+
+    if (index === toFormat.length - 1 && formattedPart === delimiter) {
+      return '';
     }
-  }
 
-  if (dateObj.hasOwnProperty('YYYY')) {
-    dateObj.YY = dateObj.YYYY.slice(2);
-  }
+    return formattedPart;
+  });
 
-  for (let i = 0; i < toFormat.length - 1; i++) {
-    result.push(dateObj[toFormat[i]]);
-  }
-
-  return result.join(toFormat[toFormat.length - 1]);
+  return result.join(toFormat.at(-1)).slice(0, -1);
 }
 
 module.exports = formatDate;
