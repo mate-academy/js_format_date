@@ -8,18 +8,11 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  let dateArray = [];
+  const separator = fromFormat[3];
+  const dateArray = date.split(separator);
   let day = '';
   let month = '';
   let year = '';
-
-  if (date.includes('-')) {
-    dateArray = date.split('-');
-  }
-
-  if (date.includes('/')) {
-    dateArray = date.split('/');
-  }
 
   if (fromFormat[0] === 'YYYY' || fromFormat[0] === 'YY') {
     year = dateArray[0];
