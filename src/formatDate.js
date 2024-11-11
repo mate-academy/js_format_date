@@ -15,17 +15,11 @@ function formatDate(date, fromFormat, toFormat) {
   let year = '';
 
   if (fromFormat[0] === 'YYYY' || fromFormat[0] === 'YY') {
-    year = dateArray[0];
-    month = dateArray[1];
-    day = dateArray[2];
+    [year, month, day] = [dateArray[0], dateArray[1], dateArray[2]];
   } else if (fromFormat[1] === 'YYYY') {
-    year = dateArray[1];
-    month = dateArray[0];
-    day = dateArray[2];
+    [month, year, day] = [dateArray[0], dateArray[1], dateArray[2]];
   } else {
-    year = dateArray[2];
-    month = dateArray[1];
-    day = dateArray[0];
+    [day, month, year] = [dateArray[0], dateArray[1], dateArray[2]];
   }
 
   if (toFormat[0] === 'YYYY' && year.length === 4) {
