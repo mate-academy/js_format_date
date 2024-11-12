@@ -8,8 +8,8 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const [, , , fromSeparator] = fromFormat;
-  const [, , , toSeparator] = toFormat;
+  const fromSeparator = fromFormat.pop();
+  const toSeparator = toFormat.pop();
 
   const dateArray = date.split(fromSeparator);
   const modifiedDate = [];
@@ -34,7 +34,7 @@ function formatDate(date, fromFormat, toFormat) {
 
     if (dateArray[fromYearIndex] < 30) {
       splitArrayDate.unshift(20);
-    } else {
+    } else if (dateArray[fromYearIndex] >= 30) {
       splitArrayDate.unshift(19);
     }
 
@@ -45,6 +45,10 @@ function formatDate(date, fromFormat, toFormat) {
 
   for (let i = 0; i < dateArray.length; i++) {
     const position = fromFormat.indexOf(toFormat[i]);
+
+    if (position === -1) {
+      return 'Value not found';
+    }
 
     modifiedDate.push(dateArray[position]);
   }
