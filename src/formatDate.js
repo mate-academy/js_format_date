@@ -4,9 +4,12 @@
  * @param {string} date
  * @param {string[]} fromFormat
  * @param {string[]} toFormat
+ * @param {string} separatorFrom
+ * @param {string} separatorTo
  *
  * @returns {string}
  */
+// eslint-disable-next-line no-unused-vars
 function formatDate(date, fromFormat, toFormat) {
   const separatorFrom = fromFormat.pop();
   const separatorTo = toFormat.pop();
