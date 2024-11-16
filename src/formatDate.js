@@ -21,7 +21,7 @@ function formatDate(date, fromFormat, toFormat) {
     dateMap[part] = dateParts[index];
   });
 
-  const formattedDateParts = toFormat.map((part) => {
+  const formattedDatePart = toFormat.map((part) => {
     if (part === 'YYYY' && dateMap['YY']) {
       return dateMap['YY'] < 30 ? '20' + dateMap['YY'] : '19' + dateMap['YY'];
     } else if (part === 'YY' && dateMap['YYYY']) {
@@ -31,7 +31,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
   });
 
-  return formattedDateParts.join(separatorTo);
+  return formattedDatePart.join(separatorTo);
 }
 
 module.exports = formatDate;
