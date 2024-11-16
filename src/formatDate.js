@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 'use strict';
 
 /**
@@ -11,8 +12,26 @@
  */
 // eslint-disable-next-line no-unused-vars
 function formatDate(date, fromFormat, toFormat) {
-  const separatorFrom = fromFormat.pop();
-  const separatorTo = toFormat.pop();
+  if (
+    typeof fromFormat[fromFormat.length - 1] === 'string' &&
+    fromFormat[fromFormat.length - 1].length === 1
+  ) {
+    // eslint-disable-next-line no-var
+    var separatorFrom = fromFormat.pop();
+  } else {
+    // eslint-disable-next-line no-var, no-redeclare
+    var separatorFrom = '-';
+  }
+
+  if (
+    typeof toFormat[toFormat.length - 1] === 'string' &&
+    toFormat[toFormat.length - 1].length === 1
+  ) {
+    var separatorTo = toFormat.pop();
+  } else {
+    // eslint-disable-next-line no-redeclare
+    var separatorTo = '-';
+  }
 
   const dateParts = date.split(separatorFrom);
   const dateMap = {};
