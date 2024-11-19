@@ -8,29 +8,29 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const object = {};
-  const splitDate = date.split(fromFormat[fromFormat.length - 1]);
-  const result = [];
+  const dateObject = {};
+  const dateParts = date.split(fromFormat[fromFormat.length - 1]);
 
-  for (let i = 0; i < fromFormat.length - 1; i++) {
-    object[fromFormat[i]] = splitDate[i];
+  fromFormat.slice(0, -1).forEach((key, index) => {
+    dateObject[key] = dateParts[index];
+  });
+
+  if (dateObject.YYYY) {
+    const shortYear = dateObject.YYYY.slice(2);
+
+    dateObject.YY = shortYear;
   }
 
-  if (object.hasOwnProperty('YYYY')) {
-    object.YY = object.YYYY.slice(2);
+  if (dateObject.YY) {
+    const fullYear =
+      dateObject.YY >= 30 ? '19' + dateObject.YY : '20' + dateObject.YY;
+
+    dateObject.YYYY = fullYear;
   }
 
-  if (object.YY >= 30) {
-    object.YYYY = '19' + object.YY;
-  } else {
-    object.YYYY = '20' + object.YY;
-  }
+  const formattedDate = toFormat.slice(0, -1).map((key) => dateObject[key]);
 
-  for (let i = 0; i < toFormat.length - 1; i++) {
-    result.push(object[toFormat[i]]);
-  }
-
-  return result.join(toFormat[toFormat.length - 1]);
+  return formattedDate.join(toFormat[toFormat.length - 1]);
 }
 
 module.exports = formatDate;
