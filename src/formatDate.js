@@ -10,29 +10,30 @@
 function formatDate(date, fromFormat, toFormat) {
   const fromFormatCopy = [...fromFormat];
   const toFormatCopy = [...toFormat];
-  const deleteLastElement = fromFormatCopy.pop();
-  const partOfDate = date.split(deleteLastElement);
-  const partsOfDate = {};
+
+  const separator = fromFormatCopy.pop();
+  const parts = date.split(separator);
+
+  const dateParts = {};
 
   fromFormatCopy.forEach((part, index) => {
-    partsOfDate[part] = partOfDate[index];
+    dateParts[part] = parts[index];
   });
 
-  if (toFormatCopy.includes('YY') && partsOfDate['YYYY']) {
-    partsOfDate['YY'] = partsOfDate['YYYY'].slice(-2);
+  if (toFormatCopy.includes('YY') && dateParts['YYYY']) {
+    dateParts['YY'] = dateParts['YYYY'].slice(-2);
   }
 
-  if (toFormatCopy.includes('YYYY') && partsOfDate['YY']) {
-    partsOfDate['YYYY'] =
-      partsOfDate['YY'] < '30'
-        ? '20' + partsOfDate['YY']
-        : '19' + partsOfDate['YY'];
+  if (toFormatCopy.includes('YYYY') && dateParts['YY']) {
+    dateParts['YYYY'] =
+      dateParts['YY'] < '30' ? '20' + dateParts['YY'] : '19' + dateParts['YY'];
   }
 
-  const newDeleteLastElement = toFormatCopy.pop();
+  const newSeparator = toFormatCopy.pop();
+
   const newDate = toFormatCopy
-    .map((part) => partsOfDate[part])
-    .join(newDeleteLastElement);
+    .map((part) => dateParts[part])
+    .join(newSeparator);
 
   return newDate;
 }
