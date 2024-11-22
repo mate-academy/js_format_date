@@ -3,7 +3,7 @@
 /**
  * @param {string} date
  * @param {string[]} fromFormat
- * @param {string[]} toFormat
+ * @param {string[]} toFormat.
  *
  * @returns {string}
  */
