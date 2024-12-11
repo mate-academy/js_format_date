@@ -1,53 +1,77 @@
 'use strict';
 
-/**
- * @param {string} date
- * @param {string[]} fromFormat
- * @param {string[]} toFormat
- *
- * @returns {string}
- */
 function formatDate(date, fromFormat, toFormat) {
-  const arrayFromDate = date.split(fromFormat[fromFormat.length - 1]);
-  const arrForResulf = [];
-  const objectFromDate = {};
+  const arrayDate = date.split(fromFormat[3]);
+  const oldFormat = {};
 
-  for (let i = 0; i < arrayFromDate.length; i++) {
-    objectFromDate[fromFormat[i]] = arrayFromDate[i];
+  for (let i = 0; i < fromFormat.length; i++) {
+    for (let partOfDate = i; partOfDate < arrayDate.length; partOfDate++) {
+      oldFormat[fromFormat[i]] = arrayDate[partOfDate];
+      break;
+    }
   }
 
-  const { MM: month, DD: day, ...lastElement } = objectFromDate;
-  const [year] = Object.values(lastElement);
+  const oldFormatKeys = Object.keys(oldFormat);
+  let yearOldFormat = '';
 
-  for (const y of toFormat) {
-    if (y === 'YYYY' || y === 'YY') {
-      if (year.length === y.length) {
-        arrForResulf.push(year);
-      }
+  for (const key of oldFormatKeys) {
+    if (key.includes('Y')) {
+      yearOldFormat += key;
+      break;
+    }
+  }
 
-      if (year.length > y.length) {
-        arrForResulf.push(year.slice(-2));
-      }
+  for (let n = 0; n < toFormat.length - 1; n++) {
+    if (toFormat[n].includes('Y')) {
+      if (toFormat[n] === 'YYYY') {
+        if (toFormat[n] === yearOldFormat) {
+          toFormat[n] = `${oldFormat['YYYY']}`;
+        }
 
-      if (year.length < y.length) {
-        if (year < 30) {
-          arrForResulf.push('20' + year);
-        } else {
-          arrForResulf.push('19' + year);
+        if (toFormat[n] !== yearOldFormat) {
+          if (`${oldFormat['YY']}` < 30) {
+            toFormat[n] = `20${oldFormat['YY']}`;
+          }
+
+          if (`${oldFormat['YY']}` >= 30) {
+            toFormat[n] = `19${oldFormat['YY']}`;
+          }
         }
       }
+
+      if (toFormat[n] === 'YY') {
+        if (toFormat[n] === yearOldFormat) {
+          toFormat[n] = `${oldFormat['YY']}`;
+        }
+
+        if (toFormat[n] !== yearOldFormat) {
+          toFormat[n] = `${oldFormat['YYYY'][2]}${oldFormat['YYYY'][3]}`;
+        }
+      }
+
+      continue;
     }
 
-    if (y === 'MM') {
-      arrForResulf.push(month);
+    if (toFormat[n].includes('M')) {
+      toFormat[n] = `${oldFormat['MM']}`;
+
+      continue;
     }
 
-    if (y === 'DD') {
-      arrForResulf.push(day);
+    if (toFormat[n].includes('D')) {
+      toFormat[n] = `${oldFormat['DD']}`;
+
+      continue;
     }
   }
 
-  return arrForResulf.join(toFormat[toFormat.length - 1]);
+  let newFormat = [...toFormat];
+  const toSeparator = toFormat[toFormat.length - 1];
+
+  newFormat = newFormat.slice(0, 3);
+  newFormat = newFormat.join(`${toSeparator}`);
+
+  return newFormat;
 }
 
 module.exports = formatDate;
