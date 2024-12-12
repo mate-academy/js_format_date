@@ -8,7 +8,18 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const dateParts = date.split(fromFormat[3]);
+  function findSeparator(format) {
+    for (let i = 0; i < format.length; i++) {
+      if (!['DD', 'MM', 'YYYY', 'YY'].includes(format[i])) {
+        return format[i];
+      }
+    }
+  }
+
+  const separator = findSeparator(fromFormat);
+  const newSeparator = findSeparator(toFormat);
+  const dateParts = date.split(separator);
+
   const result = [];
 
   result[toFormat.indexOf('DD')] = dateParts[fromFormat.indexOf('DD')];
@@ -26,7 +37,7 @@ function formatDate(date, fromFormat, toFormat) {
     result[toFormat.indexOf('YYYY')] = year;
   }
 
-  return result.join(toFormat[3]);
+  return result.join(newSeparator);
 }
 
 module.exports = formatDate;
