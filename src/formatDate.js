@@ -8,8 +8,13 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const fromSeparator = fromFormat[fromFormat.length - 1];
-  const toSeparator = toFormat[toFormat.length - 1];
+  let fromSeparator = '';
+
+  for (const arg of fromFormat) {
+    if (arg !== 'YYYY' || arg !== 'YY' || arg !== 'MM' || arg !== 'DD') {
+      fromSeparator = arg;
+    }
+  }
 
   const dateParts = date.split(fromSeparator);
 
@@ -22,7 +27,7 @@ function formatDate(date, fromFormat, toFormat) {
       year = dateParts[i];
     } else if (fromFormat[i] === 'MM') {
       month = dateParts[i];
-    } else if (fromFormat[i] === 'DD') {
+    } else {
       day = dateParts[i];
     }
   }
@@ -35,13 +40,17 @@ function formatDate(date, fromFormat, toFormat) {
 
   const newDateParts = [];
 
-  for (let i = 0; i < toFormat.length - 1; i++) {
+  let toSeparator;
+
+  for (let i = 0; i < toFormat.length; i++) {
     if (toFormat[i] === 'YYYY' || toFormat[i] === 'YY') {
       newDateParts.push(year);
     } else if (toFormat[i] === 'MM') {
       newDateParts.push(month);
     } else if (toFormat[i] === 'DD') {
       newDateParts.push(day);
+    } else {
+      toSeparator = toFormat[i];
     }
   }
 
