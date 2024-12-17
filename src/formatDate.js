@@ -39,20 +39,26 @@ function formatDate(date, fromFormat, toFormat) {
       }
 
       return yy < 30 ? `20${yy}` : `19${yy}`;
-    } else {
-      return year;
     }
+
+    return year;
   };
 
-  const formattedDate = toFormat.map((format, index) => {
-    if (index !== 3) {
-      if (format === 'YY' || format === 'YYYY') {
-        return convertYear(dateMap['YYYY'] || dateMap['YY'], format);
-      }
+  const formattedDate = [];
 
-      return dateMap[format];
+  for (const format of toFormat) {
+    if (format === toSeparator) {
+      continue;
     }
-  });
+
+    if (format === 'YY' || format === 'YYYY') {
+      const year = dateMap['YYYY'] || dateMap['YY'];
+
+      formattedDate.push(convertYear(year, format));
+    } else {
+      formattedDate.push(dateMap[format]);
+    }
+  }
 
   // console.log(formattedDate);
 
