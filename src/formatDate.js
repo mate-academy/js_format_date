@@ -17,7 +17,7 @@ function formatDate(date, fromFormat, toFormat) {
 
   const dateMap = {};
 
-  for (let i = 0; i < fromFormat.length; i++) {
+  for (let i = 0; i < fromFormat.length - 1; i++) {
     dateMap[fromFormat[i]] = dateParts[i];
   }
 
@@ -44,17 +44,27 @@ function formatDate(date, fromFormat, toFormat) {
     }
   };
 
-  const formattedDate = toFormat.map((format) => {
-    if (format === 'YY' || format === 'YYYY') {
-      return convertYear(dateMap['YYYY'] || dateMap['YY'], format);
-    }
+  const formattedDate = toFormat.map((format, index) => {
+    if (index !== 3) {
+      if (format === 'YY' || format === 'YYYY') {
+        return convertYear(dateMap['YYYY'] || dateMap['YY'], format);
+      }
 
-    return dateMap[format];
+      return dateMap[format];
+    }
   });
 
   // console.log(formattedDate);
 
   return formattedDate.join(toSeparator);
 }
+
+// console.log(
+//   formatDate(
+//     '2020-02-18',
+//     ['YYYY', 'MM', 'DD', '-'],
+//     ['YYYY', 'MM', 'DD', '.'],
+//   ),
+// );
 
 module.exports = formatDate;
