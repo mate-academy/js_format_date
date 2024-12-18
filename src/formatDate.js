@@ -44,11 +44,12 @@ function formatDate(date, fromFormat, toFormat) {
     }
     array[indexYear] = year;
 
-    const newYY = newFormat.indexOf('YY');
+    const newFormatYY = newFormat;
+    const newYY = newFormatYY.indexOf('YY');
 
-    newFormat[newYY] = 'YYYY';
+    newFormatYY[newYY] = 'YYYY';
 
-    for (const n of newFormat) {
+    for (const n of newFormatYY) {
       const searchInd = fromFormat.indexOf(n);
 
       newArray.push(array[searchInd]);
@@ -73,11 +74,12 @@ function formatDate(date, fromFormat, toFormat) {
 
     array[indexYearbig] = yearBig;
 
-    const newY = newFormat.indexOf('YYYY');
+    const newFormatYYYY = newFormat;
+    const newY = newFormatYYYY.indexOf('YYYY');
 
-    newFormat[newY] = 'YY';
+    newFormatYYYY[newY] = 'YY';
 
-    for (const n of newFormat) {
+    for (const n of newFormatYYYY) {
       const searchInd = fromFormat.indexOf(n);
 
       newArray.push(array[searchInd]);
