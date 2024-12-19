@@ -8,19 +8,14 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  const [toParts] = [toFormat.slice()];
-  const [fromParts] = [fromFormat.slice()];
-  const separators = ['-', '/', ' ', '.'];
-  const separator = findSeparator(date, separators);
-  const newSeparator = findSeparator(toFormat, separators);
-
-  function findSeparator(enterDate, separatorsArr) {
-    for (let i = 0; i < separatorsArr.length; i++) {
-      if (enterDate.includes(separatorsArr[i])) {
-        return separatorsArr[i];
-      }
-    }
-  }
+  const [toParts, newSeparator] = [
+    toFormat.slice(0, -1),
+    toFormat[toFormat.length - 1],
+  ];
+  const [fromParts, separator] = [
+    fromFormat.slice(0, -1),
+    fromFormat[fromFormat.length - 1],
+  ];
 
   const dateParts = date.split(separator);
   const dateFrom = {};
@@ -40,7 +35,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
   }
 
-  for (let i = 0; i < toParts.length - 1; i++) {
+  for (let i = 0; i < toParts.length; i++) {
     dateTo.push(dateFrom[toParts[i]]);
   }
 
