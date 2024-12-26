@@ -17,22 +17,22 @@ function formatDate(date, fromFormat, toFormat) {
   let yearIndex = null;
   const formattedDateArr = [];
 
-  for (const num of fromFormat) {
-    switch (num) {
+  for (let i = 0; i < fromFormat.length; i++) {
+    switch (fromFormat[i]) {
       case 'MM':
-        month = arrFromDate[fromFormat.indexOf(num)];
+        month = arrFromDate[i];
         break;
 
       case 'DD':
-        day = arrFromDate[fromFormat.indexOf(num)];
+        day = arrFromDate[i];
         break;
 
       case 'YY':
-        year = arrFromDate[fromFormat.indexOf(num)];
+        year = arrFromDate[i];
         break;
 
       case 'YYYY':
-        year = arrFromDate[fromFormat.indexOf(num)];
+        year = arrFromDate[i];
         break;
 
       default:
@@ -40,22 +40,19 @@ function formatDate(date, fromFormat, toFormat) {
     }
   }
 
-  for (const num of toFormat) {
-    switch (num) {
+  for (let i = 0; i < toFormat.length; i++) {
+    switch (toFormat[i]) {
       case 'DD':
-        dayIndex = toFormat.indexOf(num);
+        dayIndex = i;
         break;
 
       case 'MM':
-        monthIndex = toFormat.indexOf(num);
+        monthIndex = i;
         break;
 
       case 'YY':
-        yearIndex = toFormat.indexOf(num);
-        break;
-
       case 'YYYY':
-        yearIndex = toFormat.indexOf(num);
+        yearIndex = i;
         break;
 
       default:
@@ -79,7 +76,7 @@ function formatDate(date, fromFormat, toFormat) {
   formattedDateArr[monthIndex] = month;
   formattedDateArr[yearIndex] = year;
 
-  return formattedDateArr.join(toFormat[3]);
+  return formattedDateArr.join(toFormat[toFormat.length - 1]);
 }
 
 module.exports = formatDate;
