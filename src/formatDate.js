@@ -14,13 +14,17 @@ const dateFormats = {
   y: ['YYYY', 'YY'],
 };
 
-// [from-to]
-const format = {
-  'DD-DD': (d) => d,
-  'MM-MM': (m) => m,
-  'YYYY-YY': (y) => y.slice(-2), // use 2 last digit (1997 -> 97).
-  'YY-YYYY': (y) => (y < 30 ? `20${y}` : `19${y}`), // use 20YY if YY < 30 and 19YY otherwise.
-  'YYYY-YYYY': (y) => y,
+const makeFormat = (format, value) => {
+  // format => [from-to]
+  switch (format) {
+    case 'YYYY-YY':
+      return value.slice(-2);
+    case 'YY-YYYY':
+      return value < 30 ? `20${value}` : `19${value}`;
+
+    default:
+      return value;
+  }
 };
 
 function formatDate(date, fromFormat, toFormat) {
@@ -62,7 +66,7 @@ function formatDate(date, fromFormat, toFormat) {
   });
 
   const dateFormatted = Object.values(unionStructure).map(
-    ({ from, to, value }) => format[`${from}-${to}`](value),
+    ({ from, to, value }) => makeFormat(`${from}-${to}`, value),
   );
 
   return dateFormatted.join(separatorTo);
