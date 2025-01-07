@@ -8,11 +8,18 @@
  * @returns {string}
  */
 function formatDate(date, fromFormat, toFormat) {
-  let day;
-  let month;
-  let year;
-  const oldDate = date.split(fromFormat[fromFormat.length - 1]);
+  let day = '';
+  let month = '';
+  let year = '';
+  const oldSeparator = fromFormat.find(
+    (el) => !['DD', 'MM', 'YY', 'YYYY'].includes(el),
+  );
+  const newSeparator = toFormat.find(
+    (el) => !['DD', 'MM', 'YY', 'YYYY'].includes(el),
+  );
   const newDate = [];
+
+  const oldDate = date.split(oldSeparator);
 
   for (let i = 0; i < fromFormat.length; i++) {
     if (fromFormat[i] === 'DD') {
@@ -38,7 +45,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
 
     if (toFormat[j] === 'YY') {
-      if (year.length === toFormat[j].length) {
+      if (year.length === 2) {
         newDate.push(year);
       } else {
         newDate.push(year.slice(-2));
@@ -46,7 +53,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
 
     if (toFormat[j] === 'YYYY') {
-      if (year.length === toFormat[j].length) {
+      if (year.length === 4) {
         newDate.push(year);
       } else {
         if (year < 30) {
@@ -58,7 +65,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
   }
 
-  return newDate.join(toFormat[toFormat.length - 1]);
+  return newDate.join(newSeparator);
 }
 
 module.exports = formatDate;
