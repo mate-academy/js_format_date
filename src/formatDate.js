@@ -9,23 +9,24 @@
  */
 function formatDate(date, fromFormat, toFormat) {
   const fromSpliter = fromFormat[fromFormat.length - 1];
-  const toSpliter = toFormat[toFormat.length - 1];
+  let toSpliter;
   let longYear = 0;
   let shortYear = 0;
   let year = '';
   let month = 0;
   let day = 0;
   const dateArray = [];
+  const fromArray = date.split(fromSpliter);
 
   for (let i = 0; i < fromFormat.length - 1; i++) {
     if (fromFormat[i] === 'YYYY') {
-      longYear = date.split(fromSpliter)[i];
+      longYear = fromArray[i];
     } else if (fromFormat[i] === 'YY') {
-      shortYear = date.split(fromSpliter)[i];
+      shortYear = fromArray[i];
     } else if (fromFormat[i] === 'MM') {
-      month = date.split(fromSpliter)[i];
+      month = fromArray[i];
     } else {
-      day = date.split(fromSpliter)[i];
+      day = fromArray[i];
     }
   }
 
@@ -47,8 +48,10 @@ function formatDate(date, fromFormat, toFormat) {
       dateArray.push(Number(year));
     } else if (toFormat[i] === 'MM') {
       dateArray.push(month);
-    } else {
+    } else if (toFormat[i] === 'DD'){
       dateArray.push(day);
+    } else {
+      toSpliter = toFormat[i];
     }
   }
 
