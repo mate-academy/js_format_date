@@ -9,7 +9,7 @@
  */
 function formatDate(date, fromFormat, toFormat) {
   const fromSpliter = fromFormat[fromFormat.length - 1];
-  let toSpliter;
+  let toSpliter = toFormat[toFormat.length - 1];
   let longYear = 0;
   let shortYear = 0;
   let year = '';
@@ -48,10 +48,8 @@ function formatDate(date, fromFormat, toFormat) {
       dateArray.push(Number(year));
     } else if (toFormat[i] === 'MM') {
       dateArray.push(month);
-    } else if (toFormat[i] === 'DD'){
-      dateArray.push(day);
     } else {
-      toSpliter = toFormat[i];
+      dateArray.push(day);
     }
   }
 
