@@ -9,7 +9,7 @@
  */
 function formatDate(date, fromFormat, toFormat) {
   const fromSpliter = fromFormat[fromFormat.length - 1];
-  let toSpliter = toFormat[toFormat.length - 1];
+  const toSpliter = toFormat[toFormat.length - 1];
   let longYear = 0;
   let shortYear = 0;
   let year = '';
@@ -19,37 +19,55 @@ function formatDate(date, fromFormat, toFormat) {
   const fromArray = date.split(fromSpliter);
 
   for (let i = 0; i < fromFormat.length - 1; i++) {
-    if (fromFormat[i] === 'YYYY') {
-      longYear = fromArray[i];
-    } else if (fromFormat[i] === 'YY') {
-      shortYear = fromArray[i];
-    } else if (fromFormat[i] === 'MM') {
-      month = fromArray[i];
-    } else {
-      day = fromArray[i];
+    switch (fromFormat[i]) {
+      case 'YYYY':
+        longYear = fromArray[i];
+        break;
+
+      case 'YY':
+        shortYear = fromArray[i];
+        break;
+
+      case 'MM':
+        month = fromArray[i];
+        break;
+
+      default:
+        day = fromArray[i];
     }
   }
 
   for (let i = 0; i < toFormat.length - 1; i++) {
-    if (toFormat[i] === 'YYYY' && longYear !== 0) {
-      dateArray.push(longYear);
-    } else if (toFormat[i] === 'YY' && shortYear !== 0) {
-      dateArray.push(shortYear);
-    } else if (toFormat[i] === 'YY' && longYear !== 0) {
-      year += longYear;
-      year = year.split('').splice(2).join('');
-      dateArray.push(Number(year));
-    } else if (toFormat[i] === 'YYYY' && shortYear !== 0) {
-      if (shortYear < 30) {
-        year += '20' + shortYear;
-      } else {
-        year += '19' + shortYear;
-      }
-      dateArray.push(Number(year));
-    } else if (toFormat[i] === 'MM') {
-      dateArray.push(month);
-    } else {
-      dateArray.push(day);
+    switch (toFormat[i]) {
+      case 'YYYY':
+        if (longYear !== 0) {
+          dateArray.push(longYear);
+        } else {
+          if (shortYear < 30) {
+            year += '20' + shortYear;
+          } else {
+            year += '19' + shortYear;
+          }
+          dateArray.push(Number(year));
+        }
+        break;
+
+      case 'YY':
+        if (shortYear !== 0) {
+          dateArray.push(shortYear);
+        } else {
+          year += longYear;
+          year = year.split('').splice(2).join('');
+          dateArray.push(Number(year));
+        }
+        break;
+
+      case 'MM':
+        dateArray.push(month);
+        break;
+
+      default:
+        dateArray.push(day);
     }
   }
 
