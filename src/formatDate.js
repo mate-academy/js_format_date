@@ -14,7 +14,7 @@ function formatDate(date, fromFormat, toFormat) {
   const elementsDate = date.split(separatorFrom);
 
   let day = '';
-  let mounth = '';
+  let month = '';
   let year = '';
 
   for (let i = 0; i < fromFormat.length - 1; i++) {
@@ -25,7 +25,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
 
     if (dataElement === 'M') {
-      mounth += elementsDate[i];
+      month += elementsDate[i];
     }
 
     if (dataElement === 'Y') {
@@ -39,7 +39,7 @@ function formatDate(date, fromFormat, toFormat) {
     }
 
     if (toFormat[j][0] === 'M') {
-      arr.push(mounth);
+      arr.push(month);
     }
 
     if (toFormat[j][0] === 'Y') {
