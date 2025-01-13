@@ -10,12 +10,12 @@
 function formatDate(date, fromFormat, toFormat) {
   const dateFormat = date.split(fromFormat[3]);
 
-  const result = Array.from(3);
+  const result = new Array(3);
 
   for (let j = 0; j < fromFormat.length - 1; j++) {
     let index = toFormat.indexOf(fromFormat[j]);
 
-    if (index === -1) {
+    if (index === -1 && fromFormat[j][0] === 'Y') {
       if (fromFormat[j].length > 2) {
         index = toFormat.indexOf(fromFormat[j].slice(2));
         result[index] = dateFormat[j].slice(2);
@@ -23,10 +23,14 @@ function formatDate(date, fromFormat, toFormat) {
         index = toFormat.indexOf(fromFormat[j].concat(fromFormat[j]));
 
         result[index] =
-          dateFormat[j].slice(0, 3) < 30
+          parseInt(dateFormat[j].slice(0, 3)) < 30
             ? `20${dateFormat[j]}`
             : `19${dateFormat[j]}`;
       }
+      continue;
+    }
+
+    if (index === -1) {
       continue;
     }
 
