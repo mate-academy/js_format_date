@@ -9,13 +9,19 @@
  */
 function formatDate(date, fromFormat, toFormat) {
   const dateParts = {};
-  const separator = fromFormat[fromFormat.length - 1];
+  const separator = fromFormat.find(
+    (part) =>
+      part !== 'DD' && part !== 'MM' && part !== 'YYYY' && part !== 'YY',
+  );
   const splitDate = date.split(separator);
 
   for (let i = 0; i < fromFormat.length; i++) {
     if (fromFormat[i] === 'YY') {
+      const year = splitDate[i];
+
       dateParts['YYYY'] =
-        +splitDate[i] < 30 ? `20${splitDate[i]}` : `19${splitDate[i]}`;
+        year.length === 2 ? (+year < 30 ? `20${year}` : `19${year}`) : year;
+      dateParts['YY'] = year.length === 2 ? year : year.slice(-2);
     } else {
       dateParts[fromFormat[i]] = splitDate[i];
     }
@@ -25,7 +31,10 @@ function formatDate(date, fromFormat, toFormat) {
     dateParts['YY'] = dateParts['YYYY'].slice(-2);
   }
 
-  const newSeparator = toFormat[toFormat.length - 1];
+  const newSeparator = toFormat.find(
+    (part) =>
+      part !== 'DD' && part !== 'MM' && part !== 'YYYY' && part !== 'YY',
+  );
 
   return toFormat
     .slice(0, -1)
