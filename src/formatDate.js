@@ -9,33 +9,34 @@
  */
 function formatDate(date, fromFormat, toFormat) {
   const formatedDate = [];
-  const datArr = date.split(fromFormat[fromFormat.length - 1]);
+  const fromSeparator = getSeparator(fromFormat);
+  const dateArr = date.split(fromSeparator);
 
   const dateObj = {};
 
-  for (let i = 0; i < datArr.length; i++) {
+  for (let i = 0; i < dateArr.length; i++) {
     if (fromFormat[i].startsWith('Y')) {
-      dateObj.year = datArr[i];
+      dateObj.year = dateArr[i];
     } else if (fromFormat[i].startsWith('M')) {
-      dateObj.month = datArr[i];
+      dateObj.month = dateArr[i];
     } else if (fromFormat[i].startsWith('D')) {
-      dateObj.day = datArr[i];
+      dateObj.day = dateArr[i];
     }
   }
 
   const needYearLength = toFormat.find((el) => el.startsWith('Y')).length;
 
   if (dateObj.year.length !== needYearLength) {
-    const shortYear = dateObj.year.slice(-2);
+    const shortYear = +dateObj.year.slice(-2);
 
     if (needYearLength === 2) {
       dateObj.year = shortYear;
     } else {
-      dateObj.year = shortYear < 30 ? 20 + shortYear : 19 + shortYear;
+      dateObj.year = shortYear < 30 ? 2000 + shortYear : 1900 + shortYear;
     }
   }
 
-  const dateSeparator = toFormat.at(-1);
+  const dateSeparator = getSeparator(toFormat);
 
   for (const partDate of toFormat) {
     if (partDate.startsWith('Y')) {
@@ -50,4 +51,7 @@ function formatDate(date, fromFormat, toFormat) {
   return formatedDate.join(dateSeparator);
 }
 
+function getSeparator(date) {
+  return date.join('').replace(/[a-zA-Z]/g, '');
+}
 module.exports = formatDate;
